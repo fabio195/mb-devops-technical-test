@@ -40,9 +40,14 @@ def get_people():
         people_data = response.json()
 
         # Sort people by "name" attribute
-        people_sorted_by_name = sorted(
-            people_data["results"], key=lambda person: person["name"]
-        )
+        # Extract the list of people that are returned from the query
+        people_list = people_data["results"]
+
+        def get_person_name(person):
+            return person["name"]
+
+        # Sort the list of people using the function
+        people_sorted_by_name = sorted(people_list, key=get_person_name)
 
         logger.info("Successfully fetched and sorted people data")
         return {"people_sorted_by_name": people_sorted_by_name}
