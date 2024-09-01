@@ -3,7 +3,7 @@ import os
 
 import requests
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 
 load_dotenv()
 
@@ -24,9 +24,9 @@ def root():
 
 
 @app.get("/people")
-def get_people():
+def get_people(page: int = Query(1, ge=1)):
     try:
-        logger.info("Fetching people data from SWAPI")
+        logger.info(f"Fetching people data from SWAPI, page {page}")
 
         if not SWAPI_URL:
             logger.error("SWAPI_URL is not set")
@@ -34,22 +34,17 @@ def get_people():
                 status_code=500, detail="Internal server error: SWAPI_URL is not set"
             )
 
-        response = requests.get(SWAPI_URL + "/people")
+        # Make a request to the SWAPI with the specified page number
+        response = requests.get(f"{SWAPI_URL}/people", params={"page": page})
         response.raise_for_status()  # Raise an HTTPError for bad responses (4xx and 5xx)
 
         people_data = response.json()
 
-        # Sort people by "name" attribute
-        # Extract the list of people that are returned from the query
+        # Extract and sort people by "name" attribute
         people_list = people_data["results"]
+        people_sorted_by_name = sorted(people_list, key=lambda person: person["name"])
 
-        def get_person_name(person):
-            return person["name"]
-
-        # Sort the list of people using the function
-        people_sorted_by_name = sorted(people_list, key=get_person_name)
-
-        logger.info("Successfully fetched and sorted people data")
+        logger.info(f"Successfully fetched and sorted people data from page {page}")
         return {"people_sorted_by_name": people_sorted_by_name}
 
     except requests.exceptions.RequestException as e:
