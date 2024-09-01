@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: swapi-api
-          image: docker.io/fabio195/swapi-api:<latest-available-commit-on-docker-hub>
+          image: docker.io/fabio195/swapi-api:<latest-available-tag-on-docker-hub>
           ports:
             - containerPort: 80
           env:
