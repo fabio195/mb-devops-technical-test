@@ -219,3 +219,7 @@ For solving this test, the following resources were used:
 - [Kubectl](https://kubernetes.io/docs/reference/kubectl/): Used to communicate with Minikube in order to deploy the service.
 - [SonarLint](#https://www.sonarsource.com/products/sonarlint/): Used to get real time feedback about the code being writed.
 - [Pre Commit](#https://pre-commit.com/): Used to identifying simple issues before submission to code review. In addition with Pre Commit Hooks to fix these issues and enforce best practices.
+
+#### GitHub Workflow
+Every time you push into this repository, a GitHub Action is triggered.
+In this Action, the Docker image is built automatically and pushed to Docker Hub Registry.
