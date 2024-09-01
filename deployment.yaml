@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swapi-api
+  labels:
+    app: swapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: swapi
+  template:
+    metadata:
+      labels:
+        app: swapi
+    spec:
+      containers:
+        - name: swapi-api
+          image: swapi-api:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: SWAPI_URL
+              value: "https://swapi.dev/api/"
+          resources:
+            limits:
+              memory: "256Mi"  # Maximum memory the container can use
+              cpu: "500m"      # Maximum CPU the container can use
+            requests:
+              memory: "128Mi"  # Minimum memory the container is guaranteed to get
+              cpu: "250m"      # Minimum CPU the container is guaranteed to get
