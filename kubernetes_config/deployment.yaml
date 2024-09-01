@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: swapi-api
-          image: swapi-api:<short-SHA-commit>
+          image: docker.io/fabio195/swapi-api:<latest-available-commit-on-docker-hub>
           ports:
             - containerPort: 80
           env:
